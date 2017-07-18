@@ -8,13 +8,13 @@ var app = process.argv[2];
 var name = process.argv[3];
 liri(app, name);
 function tweets(){
-  var fs = require("fs");
-  fs.readFile("keys.js", "utf8", function(error, data) {
-    if (error) {
-        return console.log(error);
-      }
-    var client=data;
-    var params = {screen_name: 'nodejs'};
+  var client = new twitter({
+    consumer_key: keys.twitterKeys.consumer_key,
+    consumer_secret: keys.twitterKeys.consumer_secret,
+    access_token_key: keys.twitterKeys.access_token_key,
+    access_token_secret: keys.twitterKeys.access_token_secret
+  });
+    var params = {screen_name: 'sp1000478'};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
       if (!error) {
         tweets.forEach(function(element) {
@@ -22,7 +22,6 @@ function tweets(){
         });
       }
     });
-  });
 };
 function movie(name){
   var request = require("request");
@@ -34,7 +33,7 @@ function movie(name){
   request("http://www.omdbapi.com/?t="+ movieName +"&y=&plot=short&apikey=40e9cece", function(error, response, body) {
     if (!error && response.statusCode === 200) {
       console.log("Title: " + JSON.parse(body).Title);
-      console.log("Released: " + JSON.parse(body).Year);
+      console.log("Year: " + JSON.parse(body).Year);
       console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
       console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
       console.log("Country Released: " + JSON.parse(body).Country);

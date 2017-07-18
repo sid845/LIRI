@@ -51,6 +51,7 @@ function music(name){
       return console.log(error);
     }
   var spotify=data;
+  // console.log(spotify);
   if (!name) {
       name = "The Sign";
     }
